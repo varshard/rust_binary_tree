@@ -70,6 +70,10 @@ pub mod node {
                 children = self.get_children(&children);
             }
         }
+        // Need lifetime 'b to tell get_children that nodes will is life as long as the return value.
+        // Without it, compiler will throw an error, because nodes can could be returned prematurely inside the function.
+        // https://stackoverflow.com/questions/29837398/why-does-the-lifetime-name-appear-as-part-of-the-function-type
+        // https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html
         fn get_children<'b>(
             &self,
             nodes: &Vec<Option<&'b Node<'a, T>>>,
